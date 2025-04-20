@@ -44,12 +44,11 @@ public class StringUtils {
      * @param pad    character
      * @return padded string
      */
-    /*
-        --- Properties for pad method ---
-        str: cannot be null. can be a string of any length.
-        padlen: can be any int, positive or negative or 0.
-        pad: cannot be null. can be a string of any length.
-        return string: length of return string == str.length() + (padlen * pad.length())
+    /*  --- Properties ---
+     *  input str - cannot be null and can be any length string.
+     *  input padlen - can be any int, positive or negative or 0.
+     *  input pad - cannot be null and can be any length string.
+     *  return string - length of return string == (padlen * pad.length()) OR str.length() (whichever is bigger).
      */
     public static String pad(String str, int padlen, String pad) {
         // --- Input assertions ---
