@@ -45,9 +45,9 @@ public class StringUtils {
      * @return padded string
      */
     /*  --- Properties ---
-     *  input str:     not nullable, any length string.
-     *  input padlen:  any int, positive or negative or 0.
-     *  input pad:     not nullable, any length string.
+     *  input str:     cannot be null, can be any length string.
+     *  input padlen:  can be any int, positive or negative or 0.
+     *  input pad:     cannot be null, can be any length string.
      *  return string: length of string == (padlen * pad.length()) OR str.length() (whichever is bigger).
      */
     public static String pad(String str, int padlen, String pad) {
