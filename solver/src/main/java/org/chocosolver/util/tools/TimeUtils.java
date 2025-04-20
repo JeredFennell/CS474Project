@@ -44,7 +44,13 @@ public class TimeUtils {
      * @param duration a String which describes the duration
      * @return the duration in milliseconds
      */
+    /*  --- Properties ---
+     *  input duration: not nullable.
+     */
     public static long convertInMilliseconds(String duration) {
+        // --- Input assertions ---
+        assert duration != null: "TimeUtils.convertInMilliseconds(): duration cannot be null";
+
         long milliseconds = 0;
         String duration0 = duration.replaceAll("\\s+", "");
         Matcher matcher = Dp.matcher(duration0);
