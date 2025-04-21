@@ -46,10 +46,12 @@ public class TimeUtils {
      */
     /*  --- Properties ---
      *  input duration: not nullable.
+     *  return value: >= 0
      */
     public static long convertInMilliseconds(String duration) {
         // --- Input assertions ---
         assert duration != null: "TimeUtils.convertInMilliseconds(): duration cannot be null";
+        // ------
 
         long milliseconds = 0;
         String duration0 = duration.replaceAll("\\s+", "");
@@ -76,6 +78,11 @@ public class TimeUtils {
         if (milliseconds == 0) {
             milliseconds = Long.parseLong(duration0);
         }
+
+        // --- Output assertions ---
+        assert milliseconds >= 0: "TimeUtils.convertInMilliseconds(): return value is < 0, but it must be >= 0";
+        // ------
+
         return milliseconds;
     }
 
