@@ -53,7 +53,7 @@ public class StringUtils {
     public static String pad(String str, int padlen, String pad) {
         // --- Input assertions ---
         assert str != null: "StringUtils.pad: str cannot be null";
-        assert pad != null: "StringUtils.pad: pad cannot be null"; // TODO found bug - w/o this assertion, you can pad with null
+        assert pad != null: "StringUtils.pad: pad cannot be null"; // TODO found bug - w/o this assertion, you can pass a null val for pad
         // ------
 
         final StringBuilder padding = new StringBuilder(32);
