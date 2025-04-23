@@ -245,4 +245,26 @@ public class RealUtilsTest {
         Assert.assertEquals(result.getUB(), 5);
     }
 
+    @Test
+    public void testIPowerEvenPos() {
+        RealInterval i = new RealIntervalConstant(2,3);
+        int p = 2;
+        RealInterval expected = new RealIntervalConstant(RealUtils.iPower_lo(2,p), RealUtils.iPower_up(3,p));
+        RealInterval result = RealUtils.iPower(i, p);
+
+        Assert.assertEquals(result.getLB(), expected.getLB());
+        Assert.assertEquals(result.getUB(), expected.getUB());
+    }
+
+    @Test
+    public void testIPowerEvenNeg() {
+        RealInterval i = new RealIntervalConstant(-3,-2);
+        int p = 2;
+        RealInterval expected = new RealIntervalConstant(RealUtils.iPower_lo(-i.getUB(),p), RealUtils.iPower_up(-i.getLB(),p));
+        RealInterval result = RealUtils.iPower(i, p);
+
+        Assert.assertEquals(result.getLB(), expected.getLB());
+        Assert.assertEquals(result.getUB(), expected.getUB());
+    }
+
 }
