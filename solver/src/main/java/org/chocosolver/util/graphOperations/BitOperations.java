@@ -62,11 +62,13 @@ public class BitOperations {
 	 *         0 return -1 if no bit is set to 1
 	 */
 	public static int getMaxExp(int x) {
+		int test = x == 0? -1 : (int)(Math.log(Math.abs(x))/Math.log(2));
 		int exp = -1;
 		while (x > 0) {
 			exp++;
 			x /= 2;
 		}
+		assert(exp == test);
 		return exp;
 	}
 
@@ -95,6 +97,7 @@ public class BitOperations {
 			exp++;
 			x /= 2;
 		}
+		assert(exp >= 0);
 		return exp;
 	}
 
@@ -130,6 +133,7 @@ public class BitOperations {
 		if (pow < 0) {
 			throw new UnsupportedOperationException();
 		}
+		assert(pow >= 0);
 		if (pow == 0) {
 			return 1;
 		}
@@ -139,6 +143,7 @@ public class BitOperations {
 			pow--;
 			xp *= x;
 		}
+		assert(xp == Math.pow(x, pow));
 		return xp;
 	}
 }

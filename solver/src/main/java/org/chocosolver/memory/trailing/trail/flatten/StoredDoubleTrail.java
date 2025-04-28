@@ -52,6 +52,7 @@ public class StoredDoubleTrail implements IStoredDoubleTrail {
      */
     private int[] worldStartLevels;
 
+    private int pushCount;
 
     /**
      * Constructs a trail with predefined size.
@@ -67,6 +68,7 @@ public class StoredDoubleTrail implements IStoredDoubleTrail {
         stampStack = new int[nUpdates];
         worldStartLevels = new int[nWorlds];
         this.loadfactor = loadfactor;
+        this.pushCount = 0;
     }
 
 
@@ -81,6 +83,9 @@ public class StoredDoubleTrail implements IStoredDoubleTrail {
         if (worldIndex == worldStartLevels.length - 1) {
             worldStartLevels = Arrays.copyOf(worldStartLevels, (int) (worldStartLevels.length * loadfactor));
         }
+
+        pushCount++;
+        assert (pushCount > 0);
     }
 
 
@@ -91,12 +96,14 @@ public class StoredDoubleTrail implements IStoredDoubleTrail {
      */
     @Override
     public void worldPop(int worldIndex) {
+        assert(pushCount > 0);
         final int wsl = worldStartLevels[worldIndex];
         while (currentLevel > wsl) {
             currentLevel--;
             final StoredDouble v = variableStack[currentLevel];
             v._set(valueStack[currentLevel], stampStack[currentLevel]);
         }
+        pushCount--;
     }
 
     /**

@@ -62,6 +62,9 @@ public class IntIterableBitSet extends Set_BitSet implements IntIterableSet {
             add(v);
             v = set.nextValue(v);
         }
+        for(int i : set){
+          assert(this.contains(i));
+        }
         return size() - prevCard > 0;
     }
 
@@ -75,6 +78,9 @@ public class IntIterableBitSet extends Set_BitSet implements IntIterableSet {
 				card--;
             }
         }
+        for(int i : this){
+            assert(set.contains(i));
+        }
         return card < prevCard;
     }
 
@@ -87,6 +93,9 @@ public class IntIterableBitSet extends Set_BitSet implements IntIterableSet {
                 notifyObservingElementRemoved(i);
 				card--;
             }
+        }
+        for(int i : set){
+            assert(!this.contains(i));
         }
         return card < prevCard;
     }

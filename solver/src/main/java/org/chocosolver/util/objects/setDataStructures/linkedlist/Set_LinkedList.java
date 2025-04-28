@@ -124,6 +124,7 @@ public class Set_LinkedList extends AbstractSet {
 	@Override
 	public int min() {
 		if(isEmpty()) throw new IllegalStateException("cannot find minimum of an empty set");
+		assert(this.size > 0);
 		IntCell current = first;
 		int min = current.element;
 		while(current.next!=null){
@@ -138,6 +139,7 @@ public class Set_LinkedList extends AbstractSet {
 	@Override
 	public int max() {
 		if(isEmpty()) throw new IllegalStateException("cannot find maximum of an empty set");
+		assert(this.size > 0);
 		IntCell current = first;
 		int max = current.element;
 		while(current.next!=null){

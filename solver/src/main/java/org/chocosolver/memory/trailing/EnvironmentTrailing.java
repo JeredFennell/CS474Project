@@ -57,6 +57,7 @@ public class EnvironmentTrailing extends AbstractEnvironment {
      */
     private IStorage[] trails = new IStorage[0];
     private int trailSize = 0;
+    private int pushCount = 0; //seperate variable for testing, same value as currentWorld;
 
     /**
      * {@inheritDoc}
@@ -70,6 +71,7 @@ public class EnvironmentTrailing extends AbstractEnvironment {
             trails[i].worldPush(wi);
         }
         currentWorld++;
+        pushCount++;
     }
 
 
@@ -78,6 +80,7 @@ public class EnvironmentTrailing extends AbstractEnvironment {
      */
     @Override
     public void worldPop() {
+        assert(pushCount > 0); //project testing, placed at the start rather than the end of method
         timestamp++;
         //code optim.: replace loop by enumeration
         final int wi = currentWorld;
@@ -86,6 +89,7 @@ public class EnvironmentTrailing extends AbstractEnvironment {
         }
         currentWorld--;
         assert currentWorld>=0;
+        pushCount--;
     }
 
     /**
