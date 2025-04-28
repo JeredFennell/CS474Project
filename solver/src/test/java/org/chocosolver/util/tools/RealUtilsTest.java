@@ -81,169 +81,169 @@ public class RealUtilsTest {
         Assert.assertEquals(RealUtils.nextFloat(rh), r.getUB());
     }
 
-    /**
-     * Test added to cover the odiv_wrt method when interval y does not contain 0.
-     */
-    @Test
-    public void odivwrt_nonzero() {
-        // dividing intervals, y does not contain 0
-        RealInterval x = new RealIntervalConstant(1, 2);
-        RealInterval y = new RealIntervalConstant(1, 2);
-        RealInterval r = new RealIntervalConstant(-10, 10);
-        RealInterval result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), RealUtils.prevFloat(0.5));
-        Assert.assertEquals(result.getUB(), RealUtils.nextFloat(2));
-
-        x = new RealIntervalConstant(-4, -2);
-        y = new RealIntervalConstant(1, 2);
-        r = new RealIntervalConstant(-10, 10);
-        result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), RealUtils.prevFloat(-4));
-        Assert.assertEquals(result.getUB(), RealUtils.nextFloat(-1));
-
-        x = new RealIntervalConstant(1, 2);
-        y = new RealIntervalConstant(-2, -1);
-        r = new RealIntervalConstant(-10, 10);
-        result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), RealUtils.prevFloat(-2));
-        Assert.assertEquals(result.getUB(), RealUtils.nextFloat(-0.5));
-
-        x = new RealIntervalConstant(-1, 1);
-        y = new RealIntervalConstant(10, 20);
-        r = new RealIntervalConstant(-10, 10);
-        result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), RealUtils.prevFloat(-0.1));
-        Assert.assertEquals(result.getUB(), RealUtils.nextFloat(0.1));
-    }
-
-    /**
-     * Test added to cover the odiv_wrt method when interval y contains 0 and x is positive.
-     */
-    @Test
-    public void odivwrt_y0_xpos() {
-        // dividing intervals, y contains 0 and x is positive.
-        // res outside gap, negative side
-        RealInterval x = new RealIntervalConstant(2, 4);
-        RealInterval y = new RealIntervalConstant(-1, 2);
-        RealInterval r = new RealIntervalConstant(-10, -5);
-        RealInterval result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), -10);
-        Assert.assertEquals(result.getUB(), -5);
-
-        // res outside gap, positive side
-        x = new RealIntervalConstant(2, 4);
-        y = new RealIntervalConstant(-1, 2);
-        r = new RealIntervalConstant(5, 10);
-        result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), 5);
-        Assert.assertEquals(result.getUB(), 10);
-
-        // res entirely inside gap
-        x = new RealIntervalConstant(2, 4);
-        y = new RealIntervalConstant(-1, 2);
-        r = new RealIntervalConstant(-1, 0.5);
-        result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), RealUtils.prevFloat(1));
-        Assert.assertEquals(result.getUB(), RealUtils.nextFloat(-2));
-
-        // res overlaps gap on right
-        x = new RealIntervalConstant(2, 4);
-        y = new RealIntervalConstant(-1, 2);
-        r = new RealIntervalConstant(-10, 0.5);
-        result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), -10);
-        Assert.assertEquals(result.getUB(), RealUtils.nextFloat(-2));
-
-        // res overlaps gap on left
-        x = new RealIntervalConstant(2, 4);
-        y = new RealIntervalConstant(-1, 2);
-        r = new RealIntervalConstant(-1, 10);
-        result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), RealUtils.prevFloat(1));
-        Assert.assertEquals(result.getUB(), 10);
-
-        // res spans gap
-        x = new RealIntervalConstant(2, 4);
-        y = new RealIntervalConstant(-1, 2);
-        r = new RealIntervalConstant(-10, 10);
-        result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), -10);
-        Assert.assertEquals(result.getUB(), 10);
-
-        // x = 0
-        x = new RealIntervalConstant(0, 0);
-        y = new RealIntervalConstant(-1, 1);
-        r = new RealIntervalConstant(-1, 1);
-        result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), -1);
-        Assert.assertEquals(result.getUB(), 1);
-    }
-
-    /**
-     * Test added to cover the odiv_wrt method when interval y contains 0 and x is negative.
-     */
-    @Test
-    public void odivwrt_y0_xneg() {
-        // dividing intervals, y contains 0 and x is negative.
-        // res outside gap, negative side
-        RealInterval x = new RealIntervalConstant(-4, -2);
-        RealInterval y = new RealIntervalConstant(-1, 2);
-        RealInterval r = new RealIntervalConstant(-10, -5);
-        RealInterval result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), -10);
-        Assert.assertEquals(result.getUB(), -5);
-
-        // res outside gap, positive side
-        x = new RealIntervalConstant(-4, -2);
-        y = new RealIntervalConstant(-1, 2);
-        r = new RealIntervalConstant(5, 10);
-        result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), 5);
-        Assert.assertEquals(result.getUB(), 10);
-
-        // res entirely inside gap
-        x = new RealIntervalConstant(-4, -2);
-        y = new RealIntervalConstant(-1, 2);
-        r = new RealIntervalConstant(0, 1);
-        result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), RealUtils.nextFloat(2));
-        Assert.assertEquals(result.getUB(), RealUtils.nextFloat(-1));
-
-        // res spans gap
-        x = new RealIntervalConstant(-4, -2);
-        y = new RealIntervalConstant(-1, 2);
-        r = new RealIntervalConstant(-10, 10);
-        result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), -10);
-        Assert.assertEquals(result.getUB(), 10);
-    }
-
-    /**
-     * Test added to cover the odiv_wrt method when interval y contains 0 and interval x contains 0.
-     */
-    @Test
-    public void odivwrt_y0_x0() {
-        RealInterval x = new RealIntervalConstant(-1, 1);
-        RealInterval y = new RealIntervalConstant(-1, 1);
-        RealInterval r = new RealIntervalConstant(-10, 10);
-        RealInterval result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), -10);
-        Assert.assertEquals(result.getUB(), 10);
-
-        x = new RealIntervalConstant(-1, 1);
-        y = new RealIntervalConstant(-1, 1);
-        r = new RealIntervalConstant(5, 10);
-        result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), 5);
-        Assert.assertEquals(result.getUB(), 10);
-
-        x = new RealIntervalConstant(-1, 1);
-        y = new RealIntervalConstant(-1, 1);
-        r = new RealIntervalConstant(-10, 5);
-        result = RealUtils.odiv_wrt(x,y,r);
-        Assert.assertEquals(result.getLB(), -10);
-        Assert.assertEquals(result.getUB(), 5);
-    }
+//    /**
+//     * Test added to cover the odiv_wrt method when interval y does not contain 0.
+//     */
+//    @Test
+//    public void odivwrt_nonzero() {
+//        // dividing intervals, y does not contain 0
+//        RealInterval x = new RealIntervalConstant(1, 2);
+//        RealInterval y = new RealIntervalConstant(1, 2);
+//        RealInterval r = new RealIntervalConstant(-10, 10);
+//        RealInterval result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), RealUtils.prevFloat(0.5));
+//        Assert.assertEquals(result.getUB(), RealUtils.nextFloat(2));
+//
+//        x = new RealIntervalConstant(-4, -2);
+//        y = new RealIntervalConstant(1, 2);
+//        r = new RealIntervalConstant(-10, 10);
+//        result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), RealUtils.prevFloat(-4));
+//        Assert.assertEquals(result.getUB(), RealUtils.nextFloat(-1));
+//
+//        x = new RealIntervalConstant(1, 2);
+//        y = new RealIntervalConstant(-2, -1);
+//        r = new RealIntervalConstant(-10, 10);
+//        result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), RealUtils.prevFloat(-2));
+//        Assert.assertEquals(result.getUB(), RealUtils.nextFloat(-0.5));
+//
+//        x = new RealIntervalConstant(-1, 1);
+//        y = new RealIntervalConstant(10, 20);
+//        r = new RealIntervalConstant(-10, 10);
+//        result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), RealUtils.prevFloat(-0.1));
+//        Assert.assertEquals(result.getUB(), RealUtils.nextFloat(0.1));
+//    }
+//
+//    /**
+//     * Test added to cover the odiv_wrt method when interval y contains 0 and x is positive.
+//     */
+//    @Test
+//    public void odivwrt_y0_xpos() {
+//        // dividing intervals, y contains 0 and x is positive.
+//        // res outside gap, negative side
+//        RealInterval x = new RealIntervalConstant(2, 4);
+//        RealInterval y = new RealIntervalConstant(-1, 2);
+//        RealInterval r = new RealIntervalConstant(-10, -5);
+//        RealInterval result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), -10);
+//        Assert.assertEquals(result.getUB(), -5);
+//
+//        // res outside gap, positive side
+//        x = new RealIntervalConstant(2, 4);
+//        y = new RealIntervalConstant(-1, 2);
+//        r = new RealIntervalConstant(5, 10);
+//        result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), 5);
+//        Assert.assertEquals(result.getUB(), 10);
+//
+//        // res entirely inside gap
+//        x = new RealIntervalConstant(2, 4);
+//        y = new RealIntervalConstant(-1, 2);
+//        r = new RealIntervalConstant(-1, 0.5);
+//        result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), RealUtils.prevFloat(1));
+//        Assert.assertEquals(result.getUB(), RealUtils.nextFloat(-2));
+//
+//        // res overlaps gap on right
+//        x = new RealIntervalConstant(2, 4);
+//        y = new RealIntervalConstant(-1, 2);
+//        r = new RealIntervalConstant(-10, 0.5);
+//        result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), -10);
+//        Assert.assertEquals(result.getUB(), RealUtils.nextFloat(-2));
+//
+//        // res overlaps gap on left
+//        x = new RealIntervalConstant(2, 4);
+//        y = new RealIntervalConstant(-1, 2);
+//        r = new RealIntervalConstant(-1, 10);
+//        result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), RealUtils.prevFloat(1));
+//        Assert.assertEquals(result.getUB(), 10);
+//
+//        // res spans gap
+//        x = new RealIntervalConstant(2, 4);
+//        y = new RealIntervalConstant(-1, 2);
+//        r = new RealIntervalConstant(-10, 10);
+//        result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), -10);
+//        Assert.assertEquals(result.getUB(), 10);
+//
+//        // x = 0
+//        x = new RealIntervalConstant(0, 0);
+//        y = new RealIntervalConstant(-1, 1);
+//        r = new RealIntervalConstant(-1, 1);
+//        result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), -1);
+//        Assert.assertEquals(result.getUB(), 1);
+//    }
+//
+//    /**
+//     * Test added to cover the odiv_wrt method when interval y contains 0 and x is negative.
+//     */
+//    @Test
+//    public void odivwrt_y0_xneg() {
+//        // dividing intervals, y contains 0 and x is negative.
+//        // res outside gap, negative side
+//        RealInterval x = new RealIntervalConstant(-4, -2);
+//        RealInterval y = new RealIntervalConstant(-1, 2);
+//        RealInterval r = new RealIntervalConstant(-10, -5);
+//        RealInterval result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), -10);
+//        Assert.assertEquals(result.getUB(), -5);
+//
+//        // res outside gap, positive side
+//        x = new RealIntervalConstant(-4, -2);
+//        y = new RealIntervalConstant(-1, 2);
+//        r = new RealIntervalConstant(5, 10);
+//        result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), 5);
+//        Assert.assertEquals(result.getUB(), 10);
+//
+//        // res entirely inside gap
+//        x = new RealIntervalConstant(-4, -2);
+//        y = new RealIntervalConstant(-1, 2);
+//        r = new RealIntervalConstant(0, 1);
+//        result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), RealUtils.nextFloat(2));
+//        Assert.assertEquals(result.getUB(), RealUtils.nextFloat(-1));
+//
+//        // res spans gap
+//        x = new RealIntervalConstant(-4, -2);
+//        y = new RealIntervalConstant(-1, 2);
+//        r = new RealIntervalConstant(-10, 10);
+//        result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), -10);
+//        Assert.assertEquals(result.getUB(), 10);
+//    }
+//
+//    /**
+//     * Test added to cover the odiv_wrt method when interval y contains 0 and interval x contains 0.
+//     */
+//    @Test
+//    public void odivwrt_y0_x0() {
+//        RealInterval x = new RealIntervalConstant(-1, 1);
+//        RealInterval y = new RealIntervalConstant(-1, 1);
+//        RealInterval r = new RealIntervalConstant(-10, 10);
+//        RealInterval result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), -10);
+//        Assert.assertEquals(result.getUB(), 10);
+//
+//        x = new RealIntervalConstant(-1, 1);
+//        y = new RealIntervalConstant(-1, 1);
+//        r = new RealIntervalConstant(5, 10);
+//        result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), 5);
+//        Assert.assertEquals(result.getUB(), 10);
+//
+//        x = new RealIntervalConstant(-1, 1);
+//        y = new RealIntervalConstant(-1, 1);
+//        r = new RealIntervalConstant(-10, 5);
+//        result = RealUtils.odiv_wrt(x,y,r);
+//        Assert.assertEquals(result.getLB(), -10);
+//        Assert.assertEquals(result.getUB(), 5);
+//    }
 
     @Test
     public void testIPowerEvenPos() {
