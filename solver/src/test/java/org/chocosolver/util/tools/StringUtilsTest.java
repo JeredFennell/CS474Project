@@ -49,10 +49,10 @@ public class StringUtilsTest {
         Assert.assertEquals(result, expected);
     }
 
-//    @Test
-//    public void testPadNullStr() {
-//        String result = StringUtils.pad(null, 10, "#");
-//    }
+    @Test
+    public void testPadNullStr() {
+        String result = StringUtils.pad(null, 10, "#");
+    }
 
     // TODO I think this is a bug - you can add 'null' as padding. null should not be accepted.
     @Test
