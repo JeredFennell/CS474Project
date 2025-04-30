@@ -44,7 +44,18 @@ public class StringUtils {
      * @param pad    character
      * @return padded string
      */
+    /*  --- Properties ---
+     *  input str:     cannot be null, can be any length string.
+     *  input padlen:  can be any int, positive or negative or 0.
+     *  input pad:     cannot be null, can be any length string.
+     *  return string: length of string == (padlen * pad.length()) OR str.length() (whichever is bigger).
+     */
     public static String pad(String str, int padlen, String pad) {
+        // --- Input assertions ---
+        assert str != null: "StringUtils.pad: str cannot be null";
+        assert pad != null: "StringUtils.pad: pad cannot be null"; // TODO found bug - w/o this assertion, you can pass a null val for pad
+        // ------
+
         final StringBuilder padding = new StringBuilder(32);
         final int len = Math.abs(padlen) - str.length();
         if (len < 1) {
@@ -53,7 +64,15 @@ public class StringUtils {
         for (int i = 0; i < len; ++i) {
             padding.append(pad);
         }
-        return (padlen < 0 ? padding.append(str).toString() : padding.insert(0, str).toString());
+
+        // --- Output assertions ---
+        String outputStr = (padlen < 0 ? padding.append(str).toString() : padding.insert(0, str).toString());
+        int expected = Math.abs(padlen) * pad.length();
+        if (expected < str.length()) expected = str.length();
+        assert outputStr.length() == expected: "StringUtils.pad: string output length is " + outputStr.length()
+                + " and expected length is " + expected;
+        // ------
+        return outputStr;
     }
 
     /**

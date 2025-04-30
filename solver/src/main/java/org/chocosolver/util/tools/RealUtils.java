@@ -189,7 +189,18 @@ public class RealUtils {
      * @param y an interval
      * @return an interval that represents the result of the division : 'x / y'.
      */
+    /* --- Properties ---
+     * input x: not null
+     * input y: not null
+     * input res: not null
+     */
     public static RealInterval odiv_wrt(RealInterval x, RealInterval y, RealInterval res) {
+        // --- Input assertions ---
+        assert x != null: "RealUtils.odiv_wrt: x cannot be null";
+        assert y != null: "RealUtils.odiv_wrt: y cannot be null";
+        assert res != null: "RealUtils.odiv_wrt: res cannot be null";
+        // ------
+
         if (y.getLB() > 0.0 || y.getUB() < 0.0) {  // y != 0
             return odiv(x, y);
         } else {
@@ -247,14 +258,16 @@ public class RealUtils {
         return new RealIntervalConstant(inf + sup / 2.0 - inf / 2.0, i.getUB());
     }
 
-    private static double iPower_lo(double x, int p) {   // TODO : to check !
+    // FOR TESTING: changed private method to protected
+    protected static double iPower_lo(double x, int p) {   // TODO : to check !
         // x >= 0 et p > 1 entier
         if (x == 0) return 0;
         if (x == 1) return 1;
         return prevFloat(Math.exp(prevFloat(p * prevFloat(Math.log(x)))));
     }
 
-    private static double iPower_up(double x, int p) {
+    // FOR TESTING: changed private method to protected
+    protected static double iPower_up(double x, int p) {
         if (x == 0) return 0;
         if (x == 1) return 1;
         return nextFloat(Math.exp(nextFloat(p * nextFloat(Math.log(x)))));

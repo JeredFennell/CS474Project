@@ -46,6 +46,13 @@ public class IntVarValueIterator implements Iterator<Integer> {
      */
 	private int ub;
 
+	/* --- Sequential properties ---
+		Rule 1: After initialization, reset() must be called before hasNext() or next() can be called.
+		Rule 2: A call to next() must be preceded by a call to hasNext() that returns true.
+	 */
+	private boolean resetCalled;
+	private boolean hasNextVal;
+
 	/**
 	 * Creates an object to iterate over an IntVar values using
 	 * <code>
@@ -64,6 +71,8 @@ public class IntVarValueIterator implements Iterator<Integer> {
 	 */
 	public IntVarValueIterator(IntVar v){
 		this.var = v;
+		resetCalled = false;
+		hasNextVal = false;
 	}
 
 	/**
@@ -73,19 +82,32 @@ public class IntVarValueIterator implements Iterator<Integer> {
 	public void reset(){
 		value = var.getLB()-1;
 		ub = var.getUB();
+		resetCalled = true;
 	}
 
 	@Override
 	public boolean hasNext() {
-		return var.nextValue(value) <= ub;
+		// --- Assert reset has been called before this ---
+		assert resetCalled: "IntVarValueIterator.hasNext() error: reset has not been called yet.";
+		// -------
+		hasNextVal = var.nextValue(value) <= ub;
+		return hasNextVal;
 	}
 
 	@Override
 	public Integer next() {
+		// --- Assert reset has been called before this ---
+		assert resetCalled: "IntVarValueIterator.next() error: reset has not been called yet.";
+		// --- Assert hasNext has been called and returned true ---
+		assert hasNextVal: "IntVarValueIterator.next() error: hasNext has not been called or returned false";
+		// -------
+
 		value = var.nextValue(value);
 		if(value > ub) {
 			throw new NoSuchElementException("IntVarValueIterator for IntVar "+var+" has no more element");
 		}
+
+		hasNextVal = false; // reset val
 		return value;
 	}
 }
