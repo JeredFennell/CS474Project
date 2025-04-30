@@ -133,6 +133,7 @@ public class BitOperations {
 		if (pow < 0) {
 			throw new UnsupportedOperationException();
 		}
+		int saved = pow;
 		assert(pow >= 0);
 		if (pow == 0) {
 			return 1;
@@ -143,7 +144,7 @@ public class BitOperations {
 			pow--;
 			xp *= x;
 		}
-		assert(xp == Math.pow(x, pow));
+		assert(xp == Math.pow(x, saved));
 		return xp;
 	}
 }

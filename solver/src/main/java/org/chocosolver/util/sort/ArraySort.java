@@ -47,6 +47,7 @@ public class ArraySort<T> {
 	//***********************************************************************************
 
 	public void sort(T[] items, int size, Comparator<T> sort) {
+		assert(iobj != null);
 		System.arraycopy(items, 0, iobj, 0, size);
 		mergeSort(items, iobj, 0, size, sort);
 		System.arraycopy(iobj, 0, items, 0, size);
@@ -97,6 +98,7 @@ public class ArraySort<T> {
 	//***********************************************************************************
 
 	public void sort(int[] items, int size, IntComparator sort) {
+		assert(iint != null);
 		System.arraycopy(items, 0, iint, 0, size);
 		mergeSort(items, iint, 0, size, sort);
 		System.arraycopy(iint, 0, items, 0, size);
@@ -109,6 +111,7 @@ public class ArraySort<T> {
 			for (int i = low; i < high; i++)
 				for (int j = i; j > low && c.compare(dest[j-1], dest[j]) > 0; j--)
 					swap(dest, j, j - 1);
+			assert(c.compare(dest[low], dest[high-1]) <= 0);
 			return;
 		}
 		// Recursively sort halves of dest into src
@@ -119,6 +122,7 @@ public class ArraySort<T> {
 		// optimization that results in faster sorts for nearly ordered lists.
 		if (c.compare(src[mid-1], src[mid]) <= 0) {
 			System.arraycopy(src, low, dest, low, length);
+			assert(c.compare(dest[low], dest[high-1]) <= 0);
 			return;
 		}
 		// Merge sorted halves (now in src) into dest
@@ -128,11 +132,14 @@ public class ArraySort<T> {
 			else
 				dest[i] = src[q++];
 		}
+		assert(c.compare(dest[low], dest[high-1]) <= 0);
 	}
 
 	private static void swap(int[] x, int a, int b) {
 		int t = x[a];
+		int t1 = x[b];
 		x[a] = x[b];
 		x[b] = t;
+		assert(t == x[b] && t1 == x[a]);
 	}
 }
