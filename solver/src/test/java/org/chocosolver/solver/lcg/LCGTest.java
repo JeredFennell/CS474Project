@@ -77,7 +77,7 @@ public class LCGTest {
 
     @Test(groups = "lcg", dataProvider = "nqueen", timeOut = 60000)
     public void testNQueenOneSolution(boolean bounded, boolean view, int n, int s, long seed) {
-        Model model = new Model("LCG Queens sat",
+        Model model = new Model("LCG queens.Queens sat",
                 Settings.init().setLCG(true));
         IntVar[] vars = model.intVarArray("Q", n, 1, n, bounded);
 
@@ -109,7 +109,7 @@ public class LCGTest {
 
     @Test(groups = "lcg", dataProvider = "nqueen", timeOut = 60000)
     public void testNQueenAllSolutions(boolean bounded, boolean view, int n, int s, long seed) {
-        Model model = new Model("LCG Queens enum",
+        Model model = new Model("LCG queens.Queens enum",
                 Settings.init().setLCG(true));
         IntVar[] vars = model.intVarArray("Q", n, 1, n, bounded);
 
@@ -137,7 +137,7 @@ public class LCGTest {
 
     @Test(groups = "lcg", dataProvider = "nqueen", timeOut = 60000)
     public void testNQueenOptim(boolean bounded, boolean view, int n, int s, long seed) {
-        Model model = new Model("LCG Queens opt",
+        Model model = new Model("LCG queens.Queens opt",
                 Settings.init()
                         .setLCG(true)
         );
