@@ -12,6 +12,7 @@ package org.chocosolver.memory;
 import org.chocosolver.memory.structure.OneWordS32BitSet;
 import org.chocosolver.memory.structure.OneWordS64BitSet;
 import org.chocosolver.memory.trailing.EnvironmentTrailing;
+import org.chocosolver.memory.trailing.trail.StoredDoubleVectorTrail;
 import org.chocosolver.solver.Cause;
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.Solver;
@@ -308,6 +309,38 @@ public class EnvironmentTest {
         Assert.assertEquals(val[0], 2);
         env.worldPop();
         Assert.assertEquals(val[0], 0);
+    }
+
+    @Test(groups = "1s")
+    public void testEnvironmentPopPush() {
+        EnvironmentTrailing env = new EnvironmentTrailing();
+        env.worldPush();
+        env.worldPush();
+        env.worldPush();
+        env.worldPop();
+        env.worldPop();
+        env.worldPop();
+        Assert.expectThrows(AssertionError.class, () -> env.worldPop());
+    }
+
+    @Test(groups = "1s")
+    public void testEnvironmentMakeInt() {
+        EnvironmentTrailing env = new EnvironmentTrailing();
+        IStateInt snt = env.makeInt(0);
+        Assert.assertEquals(snt.get(), 0);
+    }
+
+    @Test(groups = "1s")
+    public void testEnvironmentMakeIntVector() {
+        EnvironmentTrailing env = new EnvironmentTrailing();
+        IStateIntVector vec = env.makeIntVector(5,5);
+        Assert.assertEquals(vec.size.get(), 5);
+    }
+
+    @Test(groups = "1s")
+    public void testEnvironmentDoubleVectorTrail() {
+        EnvironmentTrailing env = new EnvironmentTrailing();
+        StoredDoubleVectorTrail vec = env.getDoubleVectorTrail();
     }
 
     @Test(groups = "1s")

@@ -58,6 +58,7 @@ public class PriorityQueue {
             this.pointers[j] = this.lastElt;
         }
         this.lastElt++;
+        assert(this.pointers[this.first] == -1|| this.values[this.first] <= this.values[this.pointers[this.first]]);
         return true;
     }
 
@@ -71,6 +72,7 @@ public class PriorityQueue {
             return -1;
         }
         int elt = this.indices[this.first];
+        assert(this.pointers[this.first] == -1|| this.values[this.first] <= this.values[this.pointers[this.first]]);
         this.first = this.pointers[this.first];
         return elt;
     }

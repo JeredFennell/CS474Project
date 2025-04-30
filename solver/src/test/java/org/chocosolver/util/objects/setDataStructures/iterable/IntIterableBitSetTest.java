@@ -110,4 +110,77 @@ public class IntIterableBitSetTest {
 
     }
 
+    @Test(groups="1s", timeOut=60000)
+    public void testAddAllSet(){
+        IntIterableBitSet is = new IntIterableBitSet();
+        is.addAll(1,2,3,5,7,8,9,10);
+        IntIterableBitSet is2 = new IntIterableBitSet();
+        is2.addAll(is);
+        Assert.assertTrue(is2.contains(1));
+        Assert.assertTrue(is2.contains(2));
+        Assert.assertTrue(is2.contains(3));
+        Assert.assertTrue(is2.contains(5));
+        Assert.assertTrue(is2.contains(7));
+        Assert.assertTrue(is2.contains(8));
+        Assert.assertTrue(is2.contains(9));
+        Assert.assertTrue(is2.contains(10));
+    }
+
+    @Test(groups="1s", timeOut=60000)
+    public void testRetainAllSet(){
+        IntIterableBitSet is = new IntIterableBitSet();
+        is.addAll(1,2,3,5,7,8,9,10);
+        IntIterableBitSet is2 = new IntIterableBitSet();
+        is2.addAll(1,5,7,15,18,20);
+        is2.retainAll(is);
+        Assert.assertTrue(is2.contains(1));
+        Assert.assertTrue(is2.contains(5));
+        Assert.assertFalse(is2.contains(15));
+        Assert.assertFalse(is2.contains(18));
+        Assert.assertFalse(is2.contains(20));
+    }
+
+    @Test(groups="1s", timeOut=60000)
+    public void testRemoveAllSet(){
+        IntIterableBitSet is = new IntIterableBitSet();
+        is.addAll(1,2,3,5,7,8,9,10);
+        IntIterableBitSet is2 = new IntIterableBitSet();
+        is2.addAll(is);
+        is2.addAll(15,30,50);
+        is2.removeAll(is);
+        Assert.assertFalse(is2.contains(1));
+        Assert.assertFalse(is2.contains(2));
+        Assert.assertFalse(is2.contains(3));
+        Assert.assertFalse(is2.contains(5));
+        Assert.assertFalse(is2.contains(7));
+        Assert.assertFalse(is2.contains(8));
+        Assert.assertFalse(is2.contains(9));
+        Assert.assertFalse(is2.contains(10));
+        Assert.assertTrue(is2.contains(15));
+        Assert.assertTrue(is2.contains(30));
+        Assert.assertTrue(is2.contains(50));
+    }
+
+    @Test(groups="1s", timeOut=60000)
+    public void testRemoveBetween(){
+        IntIterableBitSet is = new IntIterableBitSet();
+        is.addAll(1,2,3,5,7,8,9,10);
+        is.removeBetween(3,9);
+        Assert.assertTrue(is.contains(1));
+        Assert.assertTrue(is.contains(2));
+        Assert.assertFalse(is.contains(3));
+        Assert.assertFalse(is.contains(5));
+        Assert.assertFalse(is.contains(7));
+        Assert.assertFalse(is.contains(8));
+        Assert.assertFalse(is.contains(9));
+        Assert.assertTrue(is.contains(10));
+    }
+
+    @Test(groups="1s", timeOut=60000)
+    public void testToString(){
+        IntIterableBitSet is = new IntIterableBitSet();
+        is.addAll(1,2,3,5,7,8,9,10);
+        Assert.assertEquals(is.toString(),"{1, 2, 3, 5, 7, 8, 9, 10}");
+    }
+
 }
